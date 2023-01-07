@@ -58,7 +58,7 @@ export const updateProduct = async (req, res) => {
 
   let fileName = "";
   if(req.files === null) {
-    fileName = Product.image;
+    fileName = product.image;
   } else {
     const file = req.files.file;
     const fileSize = file.data.length;
@@ -66,12 +66,12 @@ export const updateProduct = async (req, res) => {
     fileName = file.md5 + ext;
     const allowedType = ['.png', '.jpg', '.jpeg'];
 
-    if(!allowedType.includes(ext.toLocaleLowerCase())) return res.status(422).json({msg: 'Invalid image format'});
+    if(!allowedType.includes(ext.toLowerCase())) return res.status(422).json({msg: 'Invalid image format'});
     if(fileSize > 2000000) return res.status(422).json({msg: 'Image must be less than 2 MB'});
 
     // delete old image
-    const filePath = `./public/images/${product.image}`;
-    fs.unlinkSync(filePath);
+    const filepath = `./public/images/${product.image}`;
+    fs.unlinkSync(filepath);
 
     // replace new image
     file.mv(`./public/images/${fileName}`, (err) => {
